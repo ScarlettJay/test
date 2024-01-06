@@ -1,238 +1,112 @@
-Dompdf
-======
+# Monolog - Logging for PHP [![Continuous Integration](https://github.com/Seldaek/monolog/workflows/Continuous%20Integration/badge.svg?branch=main)](https://github.com/Seldaek/monolog/actions)
 
-[![Build Status](https://travis-ci.org/dompdf/dompdf.png?branch=master)](https://travis-ci.org/dompdf/dompdf)
-[![Latest Stable Version](https://poser.pugx.org/dompdf/dompdf/v/stable.png)](https://packagist.org/packages/dompdf/dompdf)
-[![Total Downloads](https://poser.pugx.org/dompdf/dompdf/downloads.png)](https://packagist.org/packages/dompdf/dompdf)
-[![Latest Unstable Version](https://poser.pugx.org/dompdf/dompdf/v/unstable.png)](https://packagist.org/packages/dompdf/dompdf)
-[![License](https://poser.pugx.org/dompdf/dompdf/license.png)](https://packagist.org/packages/dompdf/dompdf)
- 
-**Dompdf is an HTML to PDF converter**
-
-At its heart, dompdf is (mostly) a [CSS 2.1](http://www.w3.org/TR/CSS2/) compliant
-HTML layout and rendering engine written in PHP. It is a style-driven renderer:
-it will download and read external stylesheets, inline style tags, and the style
-attributes of individual HTML elements. It also supports most presentational
-HTML attributes.
-
-*This document applies to the latest stable code which may not reflect the current 
-release. For released code please
-[navigate to the appropriate tag](https://github.com/dompdf/dompdf/tags).*
-
-----
-
-**Check out the [demo](http://eclecticgeek.com/dompdf/debug.php) and ask any
-question on [StackOverflow](https://stackoverflow.com/questions/tagged/dompdf) or
-in [Discussions](https://github.com/dompdf/dompdf/discussions).**
-
-Follow us on [![Twitter](http://twitter-badges.s3.amazonaws.com/twitter-a.png)](http://www.twitter.com/dompdf).
-
----
+[![Total Downloads](https://img.shields.io/packagist/dt/monolog/monolog.svg)](https://packagist.org/packages/monolog/monolog)
+[![Latest Stable Version](https://img.shields.io/packagist/v/monolog/monolog.svg)](https://packagist.org/packages/monolog/monolog)
 
 
+Monolog sends your logs to files, sockets, inboxes, databases and various
+web services. See the complete list of handlers below. Special handlers
+allow you to build advanced logging strategies.
 
-## Features
+This library implements the [PSR-3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)
+interface that you can type-hint against in your own libraries to keep
+a maximum of interoperability. You can also use it in your applications to
+make sure you can always use another compatible logger at a later time.
+As of 1.11.0 Monolog public APIs will also accept PSR-3 log levels.
+Internally Monolog still uses its own level scheme since it predates PSR-3.
 
- * Handles most CSS 2.1 and a few CSS3 properties, including @import, @media &
-   @page rules
- * Supports most presentational HTML 4.0 attributes
- * Supports external stylesheets, either local or through http/ftp (via
-   fopen-wrappers)
- * Supports complex tables, including row & column spans, separate & collapsed
-   border models, individual cell styling
- * Image support (gif, png (8, 24 and 32 bit with alpha channel), bmp & jpeg)
- * No dependencies on external PDF libraries, thanks to the R&OS PDF class
- * Inline PHP support
- * Basic SVG support (see "Limitations" below)
- 
-## Requirements
+## Installation
 
- * PHP version 7.1 or higher
- * DOM extension
- * MBString extension
- * php-font-lib
- * php-svg-lib
- 
-Note that some required dependencies may have further dependencies 
-(notably php-svg-lib requires sabberworm/php-css-parser).
-
-### Recommendations
-
- * OPcache (OPcache, XCache, APC, etc.): improves performance
- * GD (for image processing)
- * IMagick or GMagick extension: improves image processing performance
-
-Visit the wiki for more information:
-https://github.com/dompdf/dompdf/wiki/Requirements
-
-## About Fonts & Character Encoding
-
-PDF documents internally support the following fonts: Helvetica, Times-Roman,
-Courier, Zapf-Dingbats, & Symbol. These fonts only support Windows ANSI
-encoding. In order for a PDF to display characters that are not available in
-Windows ANSI, you must supply an external font. Dompdf will embed any referenced
-font in the PDF so long as it has been pre-loaded or is accessible to dompdf and
-reference in CSS @font-face rules. See the
-[font overview](https://github.com/dompdf/dompdf/wiki/About-Fonts-and-Character-Encoding)
-for more information on how to use fonts.
-
-The [DejaVu TrueType fonts](https://dejavu-fonts.github.io/) have been pre-installed
-to give dompdf decent Unicode character coverage by default. To use the DejaVu
-fonts reference the font in your stylesheet, e.g. `body { font-family: DejaVu
-Sans; }` (for DejaVu Sans). The following DejaVu 2.34 fonts are available:
-DejaVu Sans, DejaVu Serif, and DejaVu Sans Mono.
-
-## Easy Installation
-
-### Install with composer
-
-To install with [Composer](https://getcomposer.org/), simply require the
-latest version of this package.
+Install the latest version with
 
 ```bash
-composer require dompdf/dompdf
+$ composer require monolog/monolog
 ```
 
-Make sure that the autoload file from Composer is loaded.
+## Basic Usage
 
 ```php
-// somewhere early in your project's loading, require the Composer autoloader
-// see: http://getcomposer.org/doc/00-intro.md
-require 'vendor/autoload.php';
+<?php
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+// create a log channel
+$log = new Logger('name');
+$log->pushHandler(new StreamHandler('path/to/your.log', Logger::WARNING));
+
+// add records to the log
+$log->warning('Foo');
+$log->error('Bar');
 ```
 
-### Download and install
+## Documentation
 
-Download a packaged archive of dompdf and extract it into the 
-directory where dompdf will reside
+- [Usage Instructions](doc/01-usage.md)
+- [Handlers, Formatters and Processors](doc/02-handlers-formatters-processors.md)
+- [Utility Classes](doc/03-utilities.md)
+- [Extending Monolog](doc/04-extending.md)
+- [Log Record Structure](doc/message-structure.md)
 
- * You can download stable copies of dompdf from
-   https://github.com/dompdf/dompdf/releases
- * Or download a nightly (the latest, unreleased code) from
-   http://eclecticgeek.com/dompdf
+## Support Monolog Financially
 
-Use the packaged release autoloader to load dompdf, libraries,
-and helper functions in your PHP:
+Get supported Monolog and help fund the project with the [Tidelift Subscription](https://tidelift.com/subscription/pkg/packagist-monolog-monolog?utm_source=packagist-monolog-monolog&utm_medium=referral&utm_campaign=enterprise) or via [GitHub sponsorship](https://github.com/sponsors/Seldaek). 
 
-```php
-// include autoloader
-require_once 'dompdf/autoload.inc.php';
-```
+Tidelift delivers commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use.
 
-Note: packaged releases are named according using semantic
-versioning (_dompdf_MAJOR-MINOR-PATCH.zip_). So the 1.0.0 
-release would be dompdf_1-0-0.zip. This is the only download
-that includes the autoloader for Dompdf and all its dependencies.
+## Third Party Packages
 
-### Install with git
+Third party handlers, formatters and processors are
+[listed in the wiki](https://github.com/Seldaek/monolog/wiki/Third-Party-Packages). You
+can also add your own there if you publish one.
 
-From the command line, switch to the directory where dompdf will
-reside and run the following commands:
+## About
 
-```sh
-git clone https://github.com/dompdf/dompdf.git
-cd dompdf/lib
+### Requirements
 
-git clone https://github.com/PhenX/php-font-lib.git php-font-lib
-cd php-font-lib
-git checkout 0.5.1
-cd ..
+- Monolog `^2.0` works with PHP 7.2 or above, use Monolog `^1.25` for PHP 5.3+ support.
 
-git clone https://github.com/PhenX/php-svg-lib.git php-svg-lib
-cd php-svg-lib
-git checkout v0.3.2
-cd ..
+### Support
 
-git clone https://github.com/sabberworm/PHP-CSS-Parser.git php-css-parser
-cd php-css-parser
-git checkout 8.1.0
-```
+Monolog 1.x support is somewhat limited at this point and only important fixes will be done. You should migrate to Monolog 2 where possible to benefit from all the latest features and fixes.
 
-Require dompdf and it's dependencies in your PHP.
-For details see the [autoloader in the utils project](https://github.com/dompdf/utils/blob/master/autoload.inc.php).
+### Submitting bugs and feature requests
 
-## Quick Start
+Bugs and feature request are tracked on [GitHub](https://github.com/Seldaek/monolog/issues)
 
-Just pass your HTML in to dompdf and stream the output:
+### Framework Integrations
 
-```php
-// reference the Dompdf namespace
-use Dompdf\Dompdf;
+- Frameworks and libraries using [PSR-3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)
+  can be used very easily with Monolog since it implements the interface.
+- [Symfony](http://symfony.com) comes out of the box with Monolog.
+- [Laravel](http://laravel.com/) comes out of the box with Monolog.
+- [Lumen](http://lumen.laravel.com/) comes out of the box with Monolog.
+- [PPI](https://github.com/ppi/framework) comes out of the box with Monolog.
+- [CakePHP](http://cakephp.org/) is usable with Monolog via the [cakephp-monolog](https://github.com/jadb/cakephp-monolog) plugin.
+- [Slim](http://www.slimframework.com/) is usable with Monolog via the [Slim-Monolog](https://github.com/Flynsarmy/Slim-Monolog) log writer.
+- [XOOPS 2.6](http://xoops.org/) comes out of the box with Monolog.
+- [Aura.Web_Project](https://github.com/auraphp/Aura.Web_Project) comes out of the box with Monolog.
+- [Nette Framework](http://nette.org/en/) is usable with Monolog via the [contributte/monolog](https://github.com/contributte/monolog) or [orisai/nette-monolog](https://github.com/orisai/nette-monolog) extensions.
+- [Proton Micro Framework](https://github.com/alexbilbie/Proton) comes out of the box with Monolog.
+- [FuelPHP](http://fuelphp.com/) comes out of the box with Monolog.
+- [Equip Framework](https://github.com/equip/framework) comes out of the box with Monolog.
+- [Yii 2](http://www.yiiframework.com/) is usable with Monolog via the [yii2-monolog](https://github.com/merorafael/yii2-monolog) or [yii2-psr-log-target](https://github.com/samdark/yii2-psr-log-target) plugins.
+- [Hawkbit Micro Framework](https://github.com/HawkBitPhp/hawkbit) comes out of the box with Monolog.
+- [SilverStripe 4](https://www.silverstripe.org/) comes out of the box with Monolog.
+- [Drupal](https://www.drupal.org/) is usable with Monolog via the [monolog](https://www.drupal.org/project/monolog) module.
+- [Aimeos ecommerce framework](https://aimeos.org/) is usable with Monolog via the [ai-monolog](https://github.com/aimeos/ai-monolog) extension.
+- [Magento](https://magento.com/) comes out of the box with Monolog.
 
-// instantiate and use the dompdf class
-$dompdf = new Dompdf();
-$dompdf->loadHtml('hello world');
+### Author
 
-// (Optional) Setup the paper size and orientation
-$dompdf->setPaper('A4', 'landscape');
+Jordi Boggiano - <j.boggiano@seld.be> - <http://twitter.com/seldaek><br />
+See also the list of [contributors](https://github.com/Seldaek/monolog/contributors) who participated in this project.
 
-// Render the HTML as PDF
-$dompdf->render();
+### License
 
-// Output the generated PDF to Browser
-$dompdf->stream();
-```
+Monolog is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-### Setting Options
+### Acknowledgements
 
-Set options during dompdf instantiation:
-
-```php
-use Dompdf\Dompdf;
-use Dompdf\Options;
-
-$options = new Options();
-$options->set('defaultFont', 'Courier');
-$dompdf = new Dompdf($options);
-```
-
-or at run time
-
-```php
-use Dompdf\Dompdf;
-
-$dompdf = new Dompdf();
-$options = $dompdf->getOptions();
-$options->setDefaultFont('Courier');
-$dompdf->setOptions($options);
-```
-
-See [Dompdf\Options](src/Options.php) for a list of available options.
-
-### Resource Reference Requirements
-
-In order to protect potentially sensitive information Dompdf imposes 
-restrictions on files referenced from the local file system or the web. 
-
-Files accessed through web-based protocols have the following requirements:
- * The Dompdf option "isRemoteEnabled" must be set to "true"
- * PHP must either have the curl extension enabled or the 
-   allow_url_fopen setting set to true
-   
-Files accessed through the local file system have the following requirement:
- * The file must fall within the path(s) specified for the Dompdf "chroot" option
-
-## Limitations (Known Issues)
-
- * Dompdf is not particularly tolerant to poorly-formed HTML input. To avoid
-   any unexpected rendering issues you should either enable the built-in HTML5
-   parser at runtime (`$options->setIsHtml5ParserEnabled(true);`) 
-   or run your HTML through a HTML validator/cleaner (such as
-   [Tidy](http://tidy.sourceforge.net) or the
-   [W3C Markup Validation Service](http://validator.w3.org)).
- * Table cells are not pageable, meaning a table row must fit on a single page.
- * Elements are rendered on the active page when they are parsed.
- * Embedding "raw" SVG's (`<svg><path...></svg>`) isn't working yet, you need to
-   either link to an external SVG file, or use a DataURI like this:
-     ```php
-     $html = '<img src="data:image/svg+xml;base64,' . base64_encode($svg) . '" ...>';
-     ```
-     Watch https://github.com/dompdf/dompdf/issues/320 for progress
-
----
-
-[![Donate button](https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif)](http://goo.gl/DSvWf)
-
-*If you find this project useful, please consider making a donation.
-Any funds donated will be used to help further development on this project.)*
+This library is heavily inspired by Python's [Logbook](https://logbook.readthedocs.io/en/stable/)
+library, although most concepts have been adjusted to fit to the PHP world.
