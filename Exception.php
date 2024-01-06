@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Exceptions related to configuration schema
+ * Global exception class for HTML Purifier; any exceptions we throw
+ * are from here.
  */
-class HTMLPurifier_ConfigSchema_Exception extends HTMLPurifier_Exception
+class HTMLPurifier_Exception extends Exception
 {
 
 }
