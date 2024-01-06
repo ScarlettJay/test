@@ -1,45 +1,57 @@
 {
-    "name": "ezyang/htmlpurifier",
-    "description": "Standards compliant HTML filter written in PHP",
+    "name": "hkvstore/dompdf",
     "type": "library",
-    "keywords": ["html"],
-    "homepage": "http://htmlpurifier.org/",
-    "license": "LGPL-2.1-or-later",
+    "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+    "homepage": "https://github.com/dompdf/dompdf",
+    "license": "LGPL-2.1",
     "authors": [
         {
-            "name": "Edward Z. Yang",
-            "email": "admin@htmlpurifier.org",
-            "homepage": "http://ezyang.com"
+            "name": "Fabien Ménager",
+            "email": "fabien.menager@gmail.com"
+        },
+        {
+            "name": "Brian Sweeney",
+            "email": "eclecticgeek@gmail.com"
+        },
+        {
+            "name": "Gabriel Bull",
+            "email": "me@gabrielbull.com"
         }
     ],
-    "require": {
-        "php": "~5.6.0 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0"
-    },
-    "require-dev": {
-        "cerdic/css-tidy": "^1.7 || ^2.0",
-        "simpletest/simpletest": "dev-master"
-    },
     "autoload": {
-        "psr-0": { "HTMLPurifier": "library/" },
-        "files": ["library/HTMLPurifier.composer.php"],
-        "exclude-from-classmap": [
-            "/library/HTMLPurifier/Language/"
+        "psr-4": {
+            "Dompdf\\": "src/"
+        },
+        "classmap": [
+            "lib/"
         ]
     },
-    "suggest": {
-        "cerdic/css-tidy": "If you want to use the filter 'Filter.ExtractStyleBlocks'.",
-        "ext-iconv": "Converts text to and from non-UTF-8 encodings",
-        "ext-bcmath": "Used for unit conversion and imagecrash protection",
-        "ext-tidy": "Used for pretty-printing HTML"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ezyang/simpletest.git",
-            "no-api": true
+    "autoload-dev": {
+        "psr-4": {
+            "Dompdf\\Tests\\": "tests/"
         }
-    ]
+    },
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "ext-dom": "*",
+        "ext-mbstring": "*",
+        "phenx/php-font-lib": "^0.5.2",
+        "phenx/php-svg-lib": "^0.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5 || ^8 || ^9",
+        "squizlabs/php_codesniffer": "^3.5",
+        "mockery/mockery": "^1.3"
+    },
+    "suggest": {
+        "ext-gd": "Needed to process images",
+        "ext-imagick": "Improves image processing performance",
+        "ext-gmagick": "Improves image processing performance",
+        "ext-zlib": "Needed for pdf stream compression"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.7-dev"
+        }
+    }
 }
